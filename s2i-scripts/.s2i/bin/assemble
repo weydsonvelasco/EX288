@@ -13,6 +13,9 @@ config_s2i
 echo "---> Installing application source"
 ## do something ## 
 
+cp -Rf /tmp/src/*.html ./
+DATE=`date "+%b %d, %Y"`
+echo "Page built on $DATE"
 ######## CUSTOMIZATION ENDS HERE ############
 
 if [ -d ./httpd-cfg ]; then
