@@ -15,7 +15,7 @@ echo "---> Installing application source"
 
 cp -Rf /tmp/src/*.html ./
 DATE=`date "+%b %d,%Y"`
-echo "Page da nova tentativca!!!!built on é hoje mesmo!!! $DATE" >> ./info.html
+echo "Page teste TAG!!!!built on é hoje mesmo!!! $DATE" >> ./info.html
 
 ######## CUSTOMIZATION ENDS HERE ############
 
