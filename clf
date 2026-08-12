@@ -1,68 +1,69 @@
 apiVersion: observability.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
-  name: CHANGE_ME
+  name: log-to-syslog
   namespace: openshift-logging
 spec:
   managementState: Managed
   serviceAccount:
-    name: CHANGE_ME
+    name: log-collector
 
   inputs:
   - name: critical-apps
     type: application
     application:
-      selector: CHANGE_ME
-
+      selector:
+        matchLabels:
+          logging: critical
   outputs:
   - name: audit-syslog
     type: syslog
     syslog:
-      url: CHANGE_ME
-      msgId: CHANGE_ME
-      appName: ocp-lab
+      url: tcp://utility.lab.example.com:514
+      msgId: audit
+      appName: openshfit
       facility: user
-      procId: vector
+      procId: audit
       rfc: RFC5424
       severity: informational
 
   - name: apps-syslog
     type: syslog
     syslog:
-      url: CHANGE_ME
-      msgId: CHANGE_ME
-      appName: ocp-lab
+      url: tcp://utility.lab.example.com:514
+      msgId: apps
+      appName: openshfit
       facility: user
-      procId: vector
+      procId: apps
       rfc: RFC5424
       severity: informational
 
   - name: infra-syslog
     type: syslog
     syslog:
-      url: CHANGE_ME
-      msgId: CHANGE_ME
-      appName: ocp-lab
+      url: tcp://utility.lab.example.com:514
+      msgId: infra
+      appName: openshfit
       facility: user
-      procId: vector
+      procId: infra
       rfc: RFC5424
       severity: informational
 
   pipelines:
   - name: critical-apps-syslog
     inputRefs:
-      - CHANGE_ME
+      - critical-apps
     outputRefs:
-      - CHANGE_ME
+      - apps-syslog
 
   - name: infra-syslog
     inputRefs:
-      - CHANGE_ME
+      - infrastructure
     outputRefs:
-      - CHANGE_ME
+      - infra-syslog
 
   - name: audit-syslog
     inputRefs:
-      - CHANGE_ME
+      - audit
     outputRefs:
-      - CHANGE_ME
+      - audit-syslog
